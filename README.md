@@ -6,5 +6,8 @@ This project will be an NFL Success Prospect Analysis to predict how well colleg
 
 Data Sets that we will be using:
 - http://stats.ncaa.org/rankings/change_sport_year_div
+- https://www.pro-football-reference.com/years/2022/index.htm
+
+Old Datasets:
 - https://www.kaggle.com/datasets/kendallgillies/nflstatistics?select=Basic_Stats.csv
 - https://www.kaggle.com/datasets/jdk5115/nfl-draft-20002021
