@@ -1,0 +1,20 @@
+from pyspark.ml import Pipeline
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import DecisionTreeClassifier
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+data = spark.read.csv("path/to/data.csv", header=True, inferSchema=True)
+...
+
+assembler = VectorAssembler(inputCols=["feature1", "feature2", "feature3"], outputCol="features")
+data = assembler.transform(data)
+
+
+(trainingData, testData) = data.randomSplit([0.7, 0.3])
+dt = DecisionTreeClassifier(labelCol="label", featuresCol="features", maxDepth=5, impurity="gini")
+pipeline = Pipeline(stages=[assembler, dt])
+
+predictions = model.transform(testData)
+evaluator = MulticlassClassificationEvaluator(labelCol="label", predictionCol="prediction", metricName="accuracy")
+accuracy = evaluator.evaluate(predictions)
+print("Test Error = %g" % (1.0 - accuracy))
