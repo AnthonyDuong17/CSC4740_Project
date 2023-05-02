@@ -8,6 +8,7 @@ from sklearn.metrics import accuracy_score as acc
 df_NCAA_Passer = pd.read_csv('Output/NCAA_Quarterbacks.csv')
 df_NCAA_Receiver = pd.read_csv('Output/NCAA_Receivers.csv')
 df_NCAA_Rusher  = pd.read_csv('Output/NCAA_Runningbacks.csv')
+
 df_NFL_Passer= pd.read_csv('Output/NFL_Quarterback.csv')
 df_NFL_Receiver = pd.read_csv('Output/NFL_Receivers.csv')
 df_NFL_Rusher  = pd.read_csv('Output/NFL_Runningbacks.csv')
@@ -29,6 +30,7 @@ for player in good_players_list:
 df_NFL_Passer['is_star'] = 0
 for player in good_players_list:   
     df_NFL_Passer.loc[df_NFL_Passer['Player'] == player,'is_star'] = 1
+
 
 df_NFL_Rusher['is_star'] = 0
 for player in good_players_list:   

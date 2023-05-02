@@ -1,0 +1,165 @@
+import pyspark as ps
+import pandas as pd 
+import numpy as py 
+
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import DecisionTreeClassifier
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
+
+from pyspark.sql import SparkSession
+from pyspark.sql import SQLContext
+from pyspark import SparkContext
+
+conf = ps.SparkConf()
+sc = ps.SparkContext.getOrCreate(conf=conf)
+sqlCtx = SQLContext(sc)
+
+df_nfl_rusher = sqlCtx.read.parquet("Output/NFL_Runningbacks_star.parquet")
+# df_nfl_rusher.show()
+df_nfl_rusher = df_nfl_rusher.drop('Position')
+# Define the features and target columns
+features = df_nfl_rusher.columns[1:-1]
+target = df_nfl_rusher.columns[-1]
+
+assembler_nfl_rusher = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_nfl_rusher.transform(df_nfl_rusher)
+
+# Split the data into training and test sets
+train_data_nfl_rusher, test_data_nfl_rusher = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_nfl_rusher = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_nfl_rusher.fit(train_data_nfl_rusher)
+
+predictions_nfl_rusher = model.transform(test_data_nfl_rusher)
+
+# Evaluate the model's performance
+evaluator_nfl_rusher = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_nfl_rusher = evaluator_nfl_rusher.evaluate(predictions_nfl_rusher)
+print("NFL Rushing Accuracy: " + str(accuracy_nfl_rusher))
+
+df_ncaa_rusher = sqlCtx.read.parquet("Output/NCAA_Runningbacks_star.parquet")
+# df_ncaa_rusher.show()
+df_ncaa_rusher = df_ncaa_rusher.drop('Position')
+# Define the features and target columns
+features = df_ncaa_rusher.columns[1:-1]
+target = df_ncaa_rusher.columns[-1]
+
+assembler_ncaa_rusher = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_ncaa_rusher.transform(df_ncaa_rusher)
+
+# Split the data into training and test sets
+train_data_ncaa_rusher, test_data_ncaa_rusher = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_ncaa_rusher = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_ncaa_rusher.fit(train_data_ncaa_rusher)
+
+predictions_ncaa_rusher = model.transform(test_data_ncaa_rusher)
+
+# Evaluate the model's performance
+evaluator_ncaa_rusher = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_ncaa_rusher = evaluator_ncaa_rusher.evaluate(predictions_ncaa_rusher)
+print("NCAA Rushing Accuracy: " + str(accuracy_ncaa_rusher))
+
+df_nfl_passer = sqlCtx.read.parquet("Output/NFL_Quarterbacks_star.parquet")
+# df_nfl_passer.show()
+df_nfl_passer = df_nfl_passer.drop('Position')
+# Define the features and target columns
+features = df_nfl_passer.columns[1:-1]
+target = df_nfl_passer.columns[-1]
+
+assembler_nfl_passer = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_nfl_passer.transform(df_nfl_passer)
+
+# Split the data into training and test sets
+train_data_nfl_passer, test_data_nfl_passer = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_nfl_passer = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_nfl_passer.fit(train_data_nfl_passer)
+
+predictions_nfl_passer = model.transform(test_data_nfl_passer)
+
+# Evaluate the model's performance
+evaluator_nfl_passer = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_nfl_passer = evaluator_nfl_passer.evaluate(predictions_nfl_passer)
+print("NFL Passing Accuracy: " + str(accuracy_nfl_passer))
+
+df_ncaa_passer = sqlCtx.read.parquet("Output/NCAA_Quarterbacks_star.parquet")
+# df_ncaa_passer.show()
+df_ncaa_passer = df_ncaa_passer.drop('Position')
+# Define the features and target columns
+features = df_ncaa_passer.columns[1:-1]
+target = df_ncaa_passer.columns[-1]
+
+assembler_ncaa_passer = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_ncaa_passer.transform(df_ncaa_passer)
+
+# Split the data into training and test sets
+train_data_ncaa_passer, test_data_ncaa_passer = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_ncaa_passer = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_ncaa_passer.fit(train_data_ncaa_passer)
+
+predictions_ncaa_passer = model.transform(test_data_ncaa_passer)
+
+# Evaluate the model's performance
+evaluator_ncaa_passer = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_ncaa_passer = evaluator_ncaa_passer.evaluate(predictions_ncaa_passer)
+print("NCAA Passing Accuracy: " + str(accuracy_ncaa_passer))
+
+df_nfl_receiver = sqlCtx.read.parquet("Output/NFL_Receivers_star.parquet")
+# df_nfl_receiver.show()
+df_nfl_receiver = df_nfl_receiver.drop('Position')
+# Define the features and target columns
+features = df_nfl_receiver.columns[1:-1]
+target = df_nfl_receiver.columns[-1]
+
+assembler_nfl_receiver = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_nfl_receiver.transform(df_nfl_receiver)
+
+# Split the data into training and test sets
+train_data_nfl_receiver, test_data_nfl_receiver = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_nfl_receiver = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_nfl_receiver.fit(train_data_nfl_receiver)
+
+predictions_nfl_receiver = model.transform(test_data_nfl_receiver)
+
+# Evaluate the model's performance
+evaluator_nfl_receiver = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_nfl_receiver = evaluator_nfl_receiver.evaluate(predictions_nfl_receiver)
+print("NFL Receiving Accuracy: " + str(accuracy_nfl_receiver))
+
+df_ncaa_receiver = sqlCtx.read.parquet("Output/NCAA_Receivers_star.parquet")
+# df_ncaa_receiver.show()
+df_ncaa_receiver = df_ncaa_receiver.drop('Position')
+# Define the features and target columns
+features = df_ncaa_receiver.columns[1:-1]
+target = df_ncaa_receiver.columns[-1]
+
+assembler_ncaa_receiver = VectorAssembler(inputCols=features, outputCol="features")
+
+data = assembler_ncaa_receiver.transform(df_ncaa_receiver)
+
+# Split the data into training and test sets
+train_data_ncaa_receiver, test_data_ncaa_receiver = data.randomSplit([0.73, 0.27], seed=28)
+
+# Create a decision tree classifier object
+dt_ncaa_receiver = DecisionTreeClassifier(labelCol=target, featuresCol="features", maxDepth=5)
+model = dt_ncaa_receiver.fit(train_data_ncaa_receiver)
+
+predictions_ncaa_receiver = model.transform(test_data_ncaa_receiver)
+
+# Evaluate the model's performance
+evaluator_ncaa_receiver = MulticlassClassificationEvaluator(labelCol=target, predictionCol="prediction", metricName="accuracy")
+accuracy_ncaa_receiver = evaluator_ncaa_receiver.evaluate(predictions_ncaa_receiver)
+print("NCAA Receiving Accuracy: " + str(accuracy_ncaa_receiver))
